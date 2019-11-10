@@ -1,0 +1,108 @@
+﻿@model LabTransacciones.Models.ModelCreate
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create</h2>
+<script src="https://kit.fontawesome.com/51c53c4506.js"></script>
+<script type="text/javascript" src="~/Scripts/Aplica_Transacciones_Create.js"></script>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Aplica_Transacciones</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            <div id="seleccionaProfesor">
+                @Html.LabelFor(model => model.Cedula, "Cedula", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div>
+                    <div id="dropProfesor" class="col-md-10">
+                        @Html.DropDownList("Cedula", null, htmlAttributes: new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Cedula, "", new { @class = "text-danger" })
+                        <button type="button" id="btnAgregarProfe" onclick="agregarProfe()"><i class="fas fa-plus-square"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div id="agregarProfesor" style="display:none">
+                <label>Nuevo profesor</label>
+                <button type="button" id="btnPonerDropProfe" onclick="ponerDropProfe()"><i class="fas fa-minus"></i></button>
+
+                <div id="inputProfesor" class="container">
+                    <div class="row">
+                         <label class="col-md-1">Cedula: </label>
+                         <input class="col-md-2" id="CedulaInput" name="Cedula"/>
+                    </div>
+                    <div class="row">
+                         <label class="col-md-1">Email: </label>
+                         <input class="col-md-2" id="Email" name="Email"/>
+                    </div>
+                    <div class="row">
+                         <label class="col-md-1" >Nombre: </label>
+                         <input class="col-md-2" id="NombreP" name="NombreP"/>
+                    </div>
+                    <div class="row">
+                         <label class="col-md-1">Apellido1: </label>
+                         <input class="col-md-2" id="Apellido1" name="Apellido1"/>
+                    </div>
+                    <div class="row">
+                         <label class="col-md-1">Apellido2: </label>
+                         <input class="col-md-2" id="Apellido2" name="Apellido2"/>
+                    </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div id="seleccionaExamen">
+                    @Html.LabelFor(model => model.SiglaExam, "SiglaExam", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div>
+                        <div id="dropExamen" class="col-md-10">
+                            @Html.DropDownList("SiglaExam", null, htmlAttributes: new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.SiglaExam, "", new { @class = "text-danger" })
+
+                            <button type="button" id="btnAgregarExamen" onclick="agregarExamen()"><i class="fas fa-plus-square"></i></button>
+                        </div>
+                    </div>
+                </div>
+                <div id="agregarExamen" style="display:none">
+                    <label>Nuevo Examen</label>
+                    <button type="button" id="btnPonerDropExamen" onclick="ponerDropExamen()"><i class="fas fa-minus"></i></button>
+
+                    <div id="inputExamen" class="container">
+                        <div class="row">
+                            <label class="col-md-1">Sigla: </label>
+                            <input class="col-md-2" id="SiglaInput" name="SiglaExam"/>
+                        </div>
+                        <div class="row">
+                            <label class="col-md-1">Nombre: </label>
+                            <input class="col-md-2" id="Nombre" name="Nombre"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Descripcion, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Descripcion, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Descripcion, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Create" class="btn btn-default" />
+                </div>
+            </div>
+        </div>
+    }
+
+    <div>
+        @Html.ActionLink("Back to List", "Index")
+    </div>
+
+    @section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+    }

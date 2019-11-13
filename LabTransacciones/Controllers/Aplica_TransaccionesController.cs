@@ -97,7 +97,7 @@ namespace LabTransacciones.Controllers
                 NumeroError.SqlDbType = SqlDbType.Int;
 
                 db.Database.ExecuteSqlCommand(TransactionalBehavior.DoNotEnsureTransaction, 
-                    "EXEC Aplicar_Examen_Con_Transaccion @CedulaP, @Email, @NombreP, @Apellido1, @Apellido2, @SiglaExam, @NombreE, @Descripcion, @NumeroError OUTPUT", CedulaP, Email, NombreP, Apellido1, Apellido2, SiglaExam, NombreE, Descripcion, NumeroError);
+                    "EXEC Aplicar_Examen_Sin_Transaccion @CedulaP, @Email, @NombreP, @Apellido1, @Apellido2, @SiglaExam, @NombreE, @Descripcion, @NumeroError OUTPUT", CedulaP, Email, NombreP, Apellido1, Apellido2, SiglaExam, NombreE, Descripcion, NumeroError);
 
                 TempData["Error"] = Convert.ToInt32(NumeroError.Value);
                 return RedirectToAction("Index");

@@ -58,7 +58,7 @@ namespace LabTransacciones.Controllers
                 CedulaP.SqlDbType = SqlDbType.Char;
                 CedulaP.Size = 9;
 
-                var Email = new SqlParameter("@Email", string.IsNullOrEmpty(modelCreate.Email)? DBNull.Value: (object)modelCreate.Email);
+                var Email = new SqlParameter("@Email", string.IsNullOrEmpty(modelCreate.Email) ? DBNull.Value : (object)modelCreate.Email);
                 Email.SqlDbType = SqlDbType.VarChar;
                 Email.Size = 50;
                 Email.IsNullable = true;
@@ -96,10 +96,24 @@ namespace LabTransacciones.Controllers
                 NumeroError.Direction = ParameterDirection.Output;
                 NumeroError.SqlDbType = SqlDbType.Int;
 
-                db.Database.ExecuteSqlCommand(TransactionalBehavior.DoNotEnsureTransaction, 
+                bool error = false;
+                try
+                {
+                    db.Database.ExecuteSqlCommand(TransactionalBehavior.DoNotEnsureTransaction,
                     "EXEC Aplicar_Examen_Sin_Transaccion @CedulaP, @Email, @NombreP, @Apellido1, @Apellido2, @SiglaExam, @NombreE, @Descripcion, @NumeroError OUTPUT", CedulaP, Email, NombreP, Apellido1, Apellido2, SiglaExam, NombreE, Descripcion, NumeroError);
+                }
+                catch {
+                    error = true;
+                }
+                //Caso donde hay error sin transacciones(no usa try en bd)
+                if (error)
+                {
+                    TempData["Error"] = -1;
+                }
+                else {
+                    TempData["Error"] = Convert.ToInt32(NumeroError.Value);
+                }
 
-                TempData["Error"] = Convert.ToInt32(NumeroError.Value);
                 return RedirectToAction("Index");
             }
 
